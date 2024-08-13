@@ -782,30 +782,56 @@ const input = [
     "BFBFFFFRLL",
 ];
 
-let numbers = []
+// Converts the strings into numbers 
 
-let rmax = 127
-let rmin = 0
-let colmax = 7
-let colmin = 0 
+let numConversion = input.map((inp) => {
+    let row = inp.slice(0, 7)
+    let column = inp.slice(-3)
 
-function numConversion(list) {
-    let rowList = [];
-    let colList = [];
-    let rowTot = []
-    
-    for (let i = 0; i < list.length; i++) {
-        let newList = list[i]; // No need to split to an array of characters
-        let row = newList.slice(0, 7); // Extract first 7 characters
-        let col = newList.slice(-3);   // Extract last 3 characters
-        
-        rowList.push(row); // Store row in rowList
-        colList.push(col); // Store column in colList
+    let rmax = 127
+    let rmin = 0
+    let colmax = 7
+    let colmin = 0 
+
+    for (i of row) {
+        i == 'B' ? rmin = Math.ceil((rmax+rmin)/2) : rmax = Math.floor((rmax+rmin)/2)
     }
 
-    console.log('Rows:', rowList);
-    console.log('Columns:', colList);
-}
+    for (i of column) {
+        i == 'L' ? colmax = Math.floor((colmax+colmin)/2) : colmin = Math.ceil((colmax+colmin)/2)
+    }
 
-console.log(numConversion(input));
+    return (rmax * 8) + colmax
+})
 
+let convertedNum = numConversion
+
+// Finds the highest number
+
+let high = 0
+
+convertedNum.forEach((num) => {
+    high < num ? high = num : high = high
+})
+
+console.log(high)
+
+// Finds the lowest number
+
+let low = high
+
+convertedNum.forEach((num) => {
+    low > num ? low = num : null
+})
+
+console.log(low)
+
+// Finds any missing squares
+
+let missingSquares = []
+
+convertedNum.every((num) => {
+    num > low && num < high ? missingSquares.push(num) : null
+})
+
+console.log(missingSquares)
