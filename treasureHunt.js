@@ -814,7 +814,7 @@ convertedNum.forEach((num) => {
     high < num ? high = num : high = high
 })
 
-console.log(high)
+console.log('High: ' + high)
 
 // Finds the lowest number
 
@@ -824,14 +824,57 @@ convertedNum.forEach((num) => {
     low > num ? low = num : null
 })
 
-console.log(low)
+console.log('Low: ' + low)
 
 // Finds any missing squares
 
 let missingSquares = []
 
-convertedNum.every((num) => {
-    num > low && num < high ? missingSquares.push(num) : null
+let sortedNum = convertedNum.sort(function(a, b){return a-b});
+let start = 51;
+
+sortedNum.every((num) => {
+    if (num != start) {
+        missingSquares.push(start);
+        start++
+    } 
+    start++;
+    return true; 
+});
+
+console.log('The missing square is: ' + missingSquares[0])
+
+// Find the location in the yard
+
+let loc = []
+
+input.map((inp) => {
+    let row = inp.slice(0, 7)
+    let column = inp.slice(-3)
+
+    let rmax = 127
+    let rmin = 0
+    let colmax = 7
+    let colmin = 0 
+
+    for (i of row) {
+        i == 'B' ? rmin = Math.ceil((rmax+rmin)/2) : rmax = Math.floor((rmax+rmin)/2)
+    }
+
+    for (i of column) {
+        i == 'L' ? colmax = Math.floor((colmax+colmin)/2) : colmin = Math.ceil((colmax+colmin)/2)
+    }
+
+    if (((rmax * 8) + colmax) == 518) {
+        console.log(rmax)
+        console.log(colmin)
+        loc.push(row.concat(column))
+    }
+    return true
 })
 
-console.log(missingSquares)
+console.log(loc[0])
+
+console.log((64 * 8) + 5)
+
+// Result = BFFFFFFRLR
