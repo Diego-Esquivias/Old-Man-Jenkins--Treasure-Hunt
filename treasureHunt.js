@@ -846,7 +846,10 @@ console.log('The missing square is: ' + missingSquares[0])
 
 // Find the location in the yard
 
-let loc = []
+let missingRow = []
+let missingColumn = []
+
+let n = 0
 
 input.map((inp) => {
     let row = inp.slice(0, 7)
@@ -865,16 +868,77 @@ input.map((inp) => {
         i == 'L' ? colmax = Math.floor((colmax+colmin)/2) : colmin = Math.ceil((colmax+colmin)/2)
     }
 
+    if (((rmax * 8) + colmax) == 516) {
+        missingRow.push(row)
+        console.log('The number below the missing square | Row: ' + rmax + ' Column: ' + colmax)
+    }
+
     if (((rmax * 8) + colmax) == 518) {
-        console.log(rmax)
-        console.log(colmin)
-        loc.push(row.concat(column))
+        console.log('The number above the missing square | Row: ' + rmax + ' Column: ' + colmax)
+    }
+
+    if ((colmax == 5) && (n == 0)) {
+        missingColumn.push(column)
+        n++
     }
     return true
 })
 
-console.log(loc[0])
+console.log('The location is: ' + missingRow[0] + missingColumn[0])
 
-console.log((64 * 8) + 5)
+// console.log((64 * 8) + 5)
 
 // Result = BFFFFFFRLR
+
+// Finding the 6 digit code
+
+let allRows = []
+let allColumns = []
+
+input.map((inp) => {
+    let row = inp.slice(0, 7)
+    let column = inp.slice(-3)
+
+    let rmax = 127
+    let rmin = 0
+    let colmax = 7
+    let colmin = 0 
+
+    for (i of row) {
+        i == 'B' ? rmin = Math.ceil((rmax+rmin)/2) : rmax = Math.floor((rmax+rmin)/2)
+    }
+
+    for (i of column) {
+        i == 'L' ? colmax = Math.floor((colmax+colmin)/2) : colmin = Math.ceil((colmax+colmin)/2)
+    }
+    
+    allRows.push(rmax)
+    allColumns.push(colmax)
+})
+
+// console.log(allRows)
+// console.log(allColumns)
+
+let totalRows = allRows.reduce((total, current) => {
+    return total + current
+})
+
+let totalColumns = allColumns.reduce((total, current) => {
+    return total + current
+})
+
+console.log((totalRows*totalColumns)/1000)
+
+// Print out a visual grid
+
+let grid = []
+
+sortedNum.map((inp) => {
+    if (inp >= 51 && inp <= 832) {
+        grid.push('#')
+    } else {
+        grid.push('.')
+    }
+})
+
+console.log(grid)
