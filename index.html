@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(128, 1fr);
+            gap: 10px;
+        }
+        .grid-item {
+            width: 150px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            background-color: lightgray;
+            border: 1px solid #000000; 
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="grid" class="grid-container"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="grid.js"></script>
+</body>
+</html>

@@ -796,20 +796,16 @@ let numConversion = input.map((inp) => {
     for (i of row) {
         i == 'B' ? rmin = Math.ceil((rmax+rmin)/2) : rmax = Math.floor((rmax+rmin)/2)
     }
-
     for (i of column) {
         i == 'L' ? colmax = Math.floor((colmax+colmin)/2) : colmin = Math.ceil((colmax+colmin)/2)
     }
-
     return (rmax * 8) + colmax
 })
-
 let convertedNum = numConversion
 
 // Finds the highest number
 
 let high = 0
-
 convertedNum.forEach((num) => {
     high < num ? high = num : high = high
 })
@@ -819,7 +815,6 @@ console.log('High: ' + high)
 // Finds the lowest number
 
 let low = high
-
 convertedNum.forEach((num) => {
     low > num ? low = num : null
 })
@@ -829,7 +824,6 @@ console.log('Low: ' + low)
 // Finds any missing squares
 
 let missingSquares = []
-
 let sortedNum = convertedNum.sort(function(a, b){return a-b});
 let start = 51;
 
@@ -848,7 +842,6 @@ console.log('The missing square is: ' + missingSquares[0])
 
 let missingRow = []
 let missingColumn = []
-
 let n = 0
 
 input.map((inp) => {
@@ -863,20 +856,12 @@ input.map((inp) => {
     for (i of row) {
         i == 'B' ? rmin = Math.ceil((rmax+rmin)/2) : rmax = Math.floor((rmax+rmin)/2)
     }
-
     for (i of column) {
         i == 'L' ? colmax = Math.floor((colmax+colmin)/2) : colmin = Math.ceil((colmax+colmin)/2)
     }
-
     if (((rmax * 8) + colmax) == 516) {
         missingRow.push(row)
-        console.log('The number below the missing square | Row: ' + rmax + ' Column: ' + colmax)
     }
-
-    if (((rmax * 8) + colmax) == 518) {
-        console.log('The number above the missing square | Row: ' + rmax + ' Column: ' + colmax)
-    }
-
     if ((colmax == 5) && (n == 0)) {
         missingColumn.push(column)
         n++
@@ -885,10 +870,6 @@ input.map((inp) => {
 })
 
 console.log('The location is: ' + missingRow[0] + missingColumn[0])
-
-// console.log((64 * 8) + 5)
-
-// Result = BFFFFFFRLR
 
 // Finding the 6 digit code
 
@@ -907,7 +888,6 @@ input.map((inp) => {
     for (i of row) {
         i == 'B' ? rmin = Math.ceil((rmax+rmin)/2) : rmax = Math.floor((rmax+rmin)/2)
     }
-
     for (i of column) {
         i == 'L' ? colmax = Math.floor((colmax+colmin)/2) : colmin = Math.ceil((colmax+colmin)/2)
     }
@@ -916,29 +896,40 @@ input.map((inp) => {
     allColumns.push(colmax)
 })
 
-// console.log(allRows)
-// console.log(allColumns)
-
 let totalRows = allRows.reduce((total, current) => {
     return total + current
 })
-
 let totalColumns = allColumns.reduce((total, current) => {
     return total + current
 })
 
-console.log((totalRows*totalColumns)/1000)
+console.log('The code is: ' + (totalRows*totalColumns)/1000)
 
-// Print out a visual grid
+// Prints out a visual grid
 
 let grid = []
+let tempArr = []
+let count = 1
 
-sortedNum.map((inp) => {
-    if (inp >= 51 && inp <= 832) {
-        grid.push('#')
-    } else {
-        grid.push('.')
+for (let i = 0; i < 1028; i++) {
+    if (i < 55 || i > 832) {
+        tempArr.push('.');
+        count++;
+    } else if (i >= 51 && i <= 832) {
+        if(i == 517) {
+            tempArr.push('X')
+            count++;
+        } else {
+            tempArr.push('#');
+            count++;
+        }
     }
-})
+
+    if (count == 8) {
+        grid.push(tempArr);
+        tempArr = [];
+        count = 1;
+    }
+}
 
 console.log(grid)
